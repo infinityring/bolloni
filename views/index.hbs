@@ -1,114 +1,16 @@
-<div class="normalheader transition animated fadeIn">
-    <div class="hpanel">
-        <div class="panel-body">
-            <a class="small-header-action" href="">
-                <div class="clip-header">
-                    <i class="fa fa-arrow-up"></i>
-                </div>
-            </a>
+<div class="container-fluid">
+  <div class="col-sm-12 main">
+    <h1 class="page-header">{{title}} {{@key}} {{@index}}</h1>
 
-            <div id="hbreadcrumb" class="pull-right m-t-lg">
-                <ol class="hbreadcrumb breadcrumb">
-                    <li><a href="index.html">Dashboard</a></li>
-                    <li>
-                        <span>App views</span>
-                    </li>
-                    <li class="active">
-                        <span>Profile </span>
-                    </li>
-                </ol>
-            </div>
-            <h2 class="font-light m-b-xs">
-                Profile
-            </h2>
-            <small>Show user data in clear profile design</small>
+    {{#each bolloni.rows}}
+    <div class="row placeholders">
+        {{#each bolloni}}
+        <div id="bol-{{id}}" class="{{style}} placeholder bollone">
+          <img src="/pu/images/{{img}}" width="1200" height="1200" class="img-responsive" alt="Generic placeholder thumbnail">
+          <h4>{{id}}</h4>
+          <span class="text-muted">Something else</span>
         </div>
-    </div>
+        {{/each}}
+     </div>
+     {{/each}}
 </div>
-
-
-<div id="testcontentpanel" class="content animate-panel">
-
-  <div class="row">
-    <div id="worldMonitor" class="col-lg-8" xxpd-path="/panel" pd-template="worldMonitor">
-
-    </div>
-    <div id="logMonitor"  class="col-lg-4" xxpd-path="/panel" pd-template="logMonitor">
-
-    </div>
-  </div>
-
-  <div class="row">
-    {{#each entities}}
-      <div id="daemon-{{id}}" class="col-lg-3" pd-path="entities[?(@.id == '{{id}}')]" pd-template="entity">
-
-      </div>
-    {{/each}}
-  </div>
-
-</div>
-
-<script>
-
-// Initialize iCheck plugin
-$('.i-checks').iCheck({
-    checkboxClass: 'icheckbox_square-green',
-    radioClass: 'iradio_square-green',
-});
-
-// Initialize animate panel function
-$('.animate-panel').animatePanel();
-
-// Function for collapse hpanel
-$('.showhide').click(function (event) {
-    event.preventDefault();
-    var hpanel = $(this).closest('div.hpanel');
-    var icon = $(this).find('i:first');
-    var body = hpanel.find('div.panel-body');
-    var footer = hpanel.find('div.panel-footer');
-    body.slideToggle(300);
-    footer.slideToggle(200);
-
-    // Toggle icon from up to down
-    icon.toggleClass('fa-chevron-up').toggleClass('fa-chevron-down');
-    hpanel.toggleClass('').toggleClass('panel-collapse');
-    setTimeout(function () {
-        hpanel.resize();
-        hpanel.find('[id^=map-]').resize();
-    }, 50);
-});
-
-// Function for close hpanel
-$('.closebox').click(function (event) {
-    event.preventDefault();
-    var hpanel = $(this).closest('div.hpanel');
-    hpanel.remove();
-});
-
-// Function for small header
-$('.small-header-action').click(function(event){
-    event.preventDefault();
-    var icon = $(this).find('i:first');
-    var breadcrumb  = $(this).parent().find('#hbreadcrumb');
-    $(this).parent().parent().parent().toggleClass('small-header');
-    breadcrumb.toggleClass('m-t-lg');
-    icon.toggleClass('fa-arrow-up').toggleClass('fa-arrow-down');
-});
-
-
-    //$("#testload").unbind("click");
-    //$("#testload").bind("click", function(event) {
-
-
-
-        //templateEngine.render($("#testcontentpanel"), 'paneltemplate')
-
-        //pageContext.timestamp = new Date();
-        //pageContext.counter ? pageContext.counter++ : pageContext.counter = 0;
-        //pageContext.title = 'Index0-' + pageContext.counter;
-        //templateEngine.render($("#wrapper"), 'index0')
-    //});
-
-
-    //setTimeout(function(){ if(pageContext.counter<=10000) $("#testload").click(); }, 300);
-</script>
