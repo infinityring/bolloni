@@ -10,9 +10,13 @@
     "start": "node index.js"
   },
   "dependencies": {
+    "body-parser": "^1.15.2",
+    "cookie-parser": "^1.4.3",
     "ejs": "2.4.1",
     "express": "4.13.3",
-    "express-hbs": "^1.0.3"
+    "express-hbs": "^1.0.3",
+    "lokijs": "^1.4.1",
+    "path": "^0.12.7"
   },
   "repository": {
     "type": "git",
