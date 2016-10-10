@@ -20,21 +20,84 @@
     {{{body}}}
     <script src="/co/jquery/dist/jquery.min.js"></script>
     <script src="/co/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/co/handlebars/handlebars.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <!-- script src="../../assets/js/ie10-viewport-bug-workaround.js"></script -->
     <script>
 
+    var bolloni = {{{json @root.bolloni}}};
+
     $( document ).ready(function() {
+
+      Handlebars.registerHelper('bolloneEnrich', function(configBollone, bolloniList, history, options) {
+          return options.fn({conf : this,
+                             bollone : bolloniList.filter((bollone) => bollone.id===configBollone.id)[0],
+                             history : history.filter((bollone) => bollone.id===configBollone.id)
+                           })
+         }
+      );
+
+      Handlebars.registerHelper('currentBolloneEnrich', function(bolloniList, history, options) {
+          return history[0] ? options.fn({
+                             bollone : bolloniList.filter((bollone) => history[0].id === bollone.id)[0],
+                             currentBollone : history[0],
+                             calculatedDuration : Date.now() - history[0].start
+                           }) :'';
+         }
+      );
+
         console.log( "ready!" );
         $(".bollone").unbind();
-
-        $(".bollone").bind("click", function(event) {
+        $(".bollone").bind("click", function(event){
           var bolleneId = event.currentTarget.id;
-          console.log("Clicked " + bolleneId)
-
-          var jqxhr = $.post( "/se/" + bolleneId , function() { console.log( "success" ); });
+          console.log("Clicked " + bolleneId);
+          chooseCurrentBollone(bolleneId);
         });
       });
+
+
+      function getTemplateAjax(template, callback) {
+        var source;
+        var template;
+
+        $.ajax({
+          url: '/pa/' + template + '.hbs', //ex. js/templates/mytemplate.handlebars
+          cache: true,
+          success: function(templateSource) {
+            callback(Handlebars.compile(templateSource));
+          }
+        });
+      }
+
+      function refreshCurrentBollone(data){
+        getTemplateAjax('currentBollone', (template) => {
+          $('.currentBollone').empty();
+          $('.currentBollone').append(template({ bolloni: bolloni, history: data}));
+        });
+
+      }
+
+      function chooseCurrentBollone (bolleneId) {
+        var jqxhr = $.post( "/se/" + bolleneId , function(data) {
+          console.log( data );
+          refreshCurrentBollone(data)
+
+        });
+      }
+
+      function getStatusBollone (bolleneId) {
+        var jqxhr = $.get( "/se/" + bolleneId , function(data) {
+          console.log( data );
+          refreshCurrentBollone(data)
+        });
+      }
+
+      setInterval(function(){
+          var bolleneId = $('#currentBollone').attr('currentId');
+          if(bolleneId) getStatusBollone(bolleneId);
+      },1000)
+
+
 
 
 

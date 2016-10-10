@@ -1,16 +1,25 @@
 <div class="container-fluid">
-  <div class="col-sm-12 main">
-    <h1 class="page-header">{{title}} {{@key}} {{@index}}</h1>
+    <div class="col-sm-12 main">
+      <div class="row currentUser">
+          {{ user.user }}
+      </div>
 
-    {{#each bolloni.rows}}
-    <div class="row placeholders">
-        {{#each bolloni}}
-        <div id="bol-{{id}}" class="{{style}} placeholder bollone">
-          <img src="/pu/images/{{img}}" width="1200" height="1200" class="img-responsive" alt="Generic placeholder thumbnail">
-          <h4>{{id}}</h4>
-          <span class="text-muted">Something else</span>
+        <div class="row currentBollone">
+            {{> currentBollone }}
         </div>
+
+        {{#each configuration.rows}}
+            <div id="bolloniConfiguration" class="row placeholders">
+                {{#each bolloni}}
+                  {{> bollone}}
+                {{/each}}
+            </div>
         {{/each}}
-     </div>
-     {{/each}}
+
+        <div id="bolloniHistory" class="row">
+            {{#each data.bolloni}}
+                {{> bollone}}
+            {{/each}}
+        </div>
+    </div>
 </div>

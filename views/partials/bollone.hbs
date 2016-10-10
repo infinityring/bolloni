@@ -1,0 +1,8 @@
+{{#bolloneEnrich this @root.bolloni @root.history}}
+<div id="{{bollone.id}}" class="{{conf.style}} {{bollone.style}} placeholder bollone">
+  <img src="/pu/images/{{bollone.img}}" width="300" height="300" class="img-responsive" alt="Generic placeholder thumbnail">
+  <h4>{{bollone.desc}}</h4>
+  <span class="text-muted">{{bollone.category.desc}}</span>
+  <span class="text-muted">{{history.0.start}} ({{history.0.duration}})</span>
+</div>
+{{/bolloneEnrich}}
